@@ -3,7 +3,6 @@ package com.onurcemkarakoc.movieapp.base
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 
 abstract class BaseVMFragment<VM : ViewModel> : Fragment() {
 
@@ -13,6 +12,10 @@ abstract class BaseVMFragment<VM : ViewModel> : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(getViewModel())
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return modelClass.getConstructor().newInstance()
+            }
+        }).get(getViewModel())
     }
 }

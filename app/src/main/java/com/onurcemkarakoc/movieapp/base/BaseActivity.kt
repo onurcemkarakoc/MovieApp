@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 
 abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel> : AppCompatActivity() {
     lateinit var dataBinding: DB
@@ -21,7 +19,11 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel> : AppCompatAct
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         dataBinding = DataBindingUtil.setContentView(this, getLayoutRes())
-        viewModel = ViewModelProviders.of(this).get(getViewModel())
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return modelClass.getConstructor().newInstance()
+            }
+        }).get(getViewModel())
     }
 
 
