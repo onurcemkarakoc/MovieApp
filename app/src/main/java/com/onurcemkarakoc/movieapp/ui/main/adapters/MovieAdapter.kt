@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.onurcemkarakoc.movieapp.databinding.ItemMovieBinding
 import com.onurcemkarakoc.movieapp.models.movie.MoviesResults
+import com.onurcemkarakoc.movieapp.utils.Constant.DIFF_CALLBACK
 
 class MovieAdapter : ListAdapter<MoviesResults, MovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 

@@ -9,8 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainRepository {
-    private val apiService: ApiService by lazy { ApiClient.getRetrofit() }
+class MainRepository (private val apiService: ApiService) {
 
     fun getPopularMovies(): LiveData<List<MoviesResults>> {
         val moviesLiveData: MutableLiveData<List<MoviesResults>> = MutableLiveData()

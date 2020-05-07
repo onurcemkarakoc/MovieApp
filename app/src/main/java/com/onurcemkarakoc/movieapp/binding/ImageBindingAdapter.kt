@@ -2,6 +2,8 @@ package com.onurcemkarakoc.movieapp.binding
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.onurcemkarakoc.movieapp.utils.Constant
 
 object ImageBindingAdapter {
 

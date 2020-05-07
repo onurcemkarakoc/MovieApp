@@ -3,6 +3,7 @@ package com.onurcemkarakoc.movieapp.base
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 abstract class BaseVMFragment<VM : ViewModel> : Fragment() {
 
