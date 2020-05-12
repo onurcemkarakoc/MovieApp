@@ -35,14 +35,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(main_toolbar)
         setUpViewPager()
         main_tabs.setupWithViewPager(main_viewpager)
-
     }
+
 
     private fun setUpViewPager() {
         val adapter = MainViewPagerAdapter(supportFragmentManager)
         adapter.apply {
-            addFragment(PopularMoviesFragment(apiService), "Popular")
-            addFragment(TopRatedMoviesFragment(apiService), "Top Rated")
+            addFragment(PopularMoviesFragment(), "Popular")
+            addFragment(TopRatedMoviesFragment(), "Top Rated")
         }
         main_viewpager.adapter = adapter
     }

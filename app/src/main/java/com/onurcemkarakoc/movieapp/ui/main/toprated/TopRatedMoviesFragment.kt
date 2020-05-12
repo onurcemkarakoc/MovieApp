@@ -9,20 +9,29 @@ import androidx.lifecycle.Observer
 import com.onurcemkarakoc.movieapp.R
 import com.onurcemkarakoc.movieapp.base.BaseVMFragment
 import com.onurcemkarakoc.movieapp.data.remote.ApiService
+import com.onurcemkarakoc.movieapp.di.DaggerAppComponent
 import com.onurcemkarakoc.movieapp.ui.main.adapters.MovieAdapter
 import com.onurcemkarakoc.movieapp.ui.main.popular.PopularMoviesViewModel
 import com.onurcemkarakoc.movieapp.utils.gone
 import com.onurcemkarakoc.movieapp.utils.visible
 import kotlinx.android.synthetic.main.fragment_top_rated_movies.*
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class TopRatedMoviesFragment(private val apiService: ApiService)  : Fragment() {
+class TopRatedMoviesFragment()  : Fragment() {
 
     private lateinit var adapter: MovieAdapter
     private lateinit var viewModel:TopRatedMoviesViewModel
 
+    @Inject
+    lateinit var apiService: ApiService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerAppComponent.builder().build().inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +39,6 @@ class TopRatedMoviesFragment(private val apiService: ApiService)  : Fragment() {
         return inflater.inflate(R.layout.fragment_top_rated_movies, container, false)
     }
 
-   // override fun getViewModel(): Class<TopRatedMoviesViewModel> = TopRatedMoviesViewModel::class.java
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

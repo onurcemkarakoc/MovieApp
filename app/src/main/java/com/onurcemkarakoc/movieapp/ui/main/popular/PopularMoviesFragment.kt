@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.onurcemkarakoc.movieapp.R
 import com.onurcemkarakoc.movieapp.base.BaseVMFragment
 import com.onurcemkarakoc.movieapp.data.remote.ApiService
+import com.onurcemkarakoc.movieapp.di.DaggerAppComponent
 import com.onurcemkarakoc.movieapp.ui.main.adapters.MovieAdapter
 import com.onurcemkarakoc.movieapp.utils.gone
 import com.onurcemkarakoc.movieapp.utils.visible
@@ -18,12 +19,20 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  */
-class PopularMoviesFragment (private val apiService: ApiService) : Fragment() {
+class PopularMoviesFragment : Fragment() {
 
     private lateinit var adapter: MovieAdapter
     private lateinit var viewModel: PopularMoviesViewModel
 
-   // override fun getViewModel(): Class<PopularMoviesViewModel> = PopularMoviesViewModel::class.java
+
+    @Inject
+    lateinit var apiService: ApiService
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerAppComponent.builder().build().inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
