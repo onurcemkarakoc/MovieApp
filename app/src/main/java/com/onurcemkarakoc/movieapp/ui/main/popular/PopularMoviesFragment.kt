@@ -4,53 +4,54 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.onurcemkarakoc.movieapp.R
-import com.onurcemkarakoc.movieapp.base.BaseVMFragment
-import com.onurcemkarakoc.movieapp.data.remote.ApiService
-import com.onurcemkarakoc.movieapp.di.DaggerAppComponent
+import com.onurcemkarakoc.movieapp.databinding.FragmentPopularMoviesBinding
 import com.onurcemkarakoc.movieapp.ui.main.adapters.MovieAdapter
 import com.onurcemkarakoc.movieapp.utils.gone
 import com.onurcemkarakoc.movieapp.utils.visible
-import kotlinx.android.synthetic.main.fragment_popular_movies.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-/**
- * A simple [Fragment] subclass.
- */
 class PopularMoviesFragment : Fragment() {
 
-    private lateinit var adapter: MovieAdapter
-    private lateinit var viewModel: PopularMoviesViewModel
-
-
-    @Inject
-    lateinit var apiService: ApiService
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        DaggerAppComponent.builder().build().inject(this)
+    companion object {
+        fun newInstance(): PopularMoviesFragment {
+            return PopularMoviesFragment()
+        }
     }
+
+    private var binding:FragmentPopularMoviesBinding?=null
+
+    private val viewModel by viewModel<PopularMoviesViewModel>()
+
+
+    private lateinit var adapter: MovieAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_popular_movies, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_popular_movies, container, false)
+        return binding?.root!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel = PopularMoviesViewModel(apiService )
         adapter = MovieAdapter()
-        viewModel.getPopularMovies().observe(this, Observer {
+
+        viewModel.getPopularMovies().observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            popular_rc.adapter = adapter
-            popular_rc.visible()
-            popular_progressbar.gone()
-        })
+            binding?.popularRc?.adapter = adapter
+            binding?.popularRc?.visible()
+            binding?.popularProgressbar?.gone()
+        }
+    }
+
+    override fun onDestroyView() {
+        binding=null
+        super.onDestroyView()
     }
 
 
